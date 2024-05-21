@@ -1,6 +1,6 @@
 ## Finance-manager application
 
-Приложение «Умный бюджет» на Spring Boot.
+Приложение Rest на Spring Boot.
 
 ##### Building the project
 - Клонировать исходники к себе
