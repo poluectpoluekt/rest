@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="FARMER_ENTITY_INIT_TABLE_AND_SEQUENCE" author="Matvei">
+
+        <createSequence cycle="false" dataType="bigint" incrementBy="1" maxValue="9223372036854775807" minValue="1" sequenceName="farmer_main_sequence" startValue="1"/>
+        
+        <createTable tableName="Farmer">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="legalForm" type="VARCHAR(255)"/>
+            <column name="inn" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kpp" type="INT"/>
+            <column name="ogrn" type="BIGINT"/>
+            <column name="registration_District" type="BIGINT">
+                <constraints nullable="false" deleteCascade="true"/>
+            </column>
+            <column name="registration_Date" type="DATE"/>
+            <column name="status_Archived" type="BOOLEAN"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="Farmer" baseColumnNames="registration_District" constraintName="fk_farmer_id" referencedTableName="District"
+                                 referencedColumnNames="id"/>
+
+        <createTable tableName="district_farmer">
+            <column name="district_id" type="BIGINT">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="farmer_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="district_farmer" baseColumnNames="district_id" constraintName="fk_district_id" referencedTableName="District"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="district_farmer" baseColumnNames="farmer_id" constraintName="fk_farmer_id" referencedTableName="Farmer"
+                                 referencedColumnNames="id"/>
+
+        
+    </changeSet>
+</databaseChangeLog>

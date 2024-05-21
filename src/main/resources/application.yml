@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: rest-postgres
+    password: rest-postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+  liquibase:
+    change-log: classpath:db/changelog/db-changelog.xml
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
