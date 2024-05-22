@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Контроллер сущности район")
 @AllArgsConstructor
 @RestController
 @RequestMapping("api/district")

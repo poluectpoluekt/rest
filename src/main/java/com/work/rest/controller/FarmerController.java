@@ -20,7 +20,7 @@ public class FarmerController {
 
     private final FarmerServiceImpl farmerService;
 
-    @Tag(name = "endpoint реестра фермера", description = "Принимает dto фермера. Проверит по атрибуту title, существует ли фермер в БД")
+    @Tag(name = "endpoint добавления нового фермера", description = "Принимает dto фермера. Проверит по атрибуту title, существует ли фермер в БД")
     @PostMapping()
     public ResponseEntity<HttpStatus> createFarmer(@RequestBody FarmerDto farmerDto){
         farmerService.create(farmerDto);
