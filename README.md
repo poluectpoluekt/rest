@@ -1,4 +1,4 @@
-## Finance-manager application
+## Rest application
 
 Приложение Rest на Spring Boot.
 
