@@ -9,7 +9,7 @@
 
         <createSequence cycle="false" dataType="bigint" incrementBy="1" maxValue="9223372036854775807" minValue="1" sequenceName="farmer_main_sequence" startValue="1"/>
         
-        <createTable tableName="Farmer">
+        <createTable tableName="farmer">
             <column name="id" type="BIGINT">
                 <constraints primaryKey="true"/>
             </column>
@@ -29,7 +29,7 @@
             <column name="status_Archived" type="BOOLEAN"/>
         </createTable>
 
-        <addForeignKeyConstraint baseTableName="Farmer" baseColumnNames="registration_District" constraintName="fk_farmer_id" referencedTableName="District"
+        <addForeignKeyConstraint baseTableName="farmer" baseColumnNames="registration_District" constraintName="fk_farmer_id" referencedTableName="district"
                                  referencedColumnNames="id"/>
 
         <createTable tableName="district_farmer">
@@ -41,10 +41,10 @@
             </column>
         </createTable>
 
-        <addForeignKeyConstraint baseTableName="district_farmer" baseColumnNames="district_id" constraintName="fk_district_id" referencedTableName="District"
+        <addForeignKeyConstraint baseTableName="district_farmer" baseColumnNames="district_id" constraintName="fk_district_id" referencedTableName="district"
                                  referencedColumnNames="id"/>
 
-        <addForeignKeyConstraint baseTableName="district_farmer" baseColumnNames="farmer_id" constraintName="fk_farmer_id" referencedTableName="Farmer"
+        <addForeignKeyConstraint baseTableName="district_farmer" baseColumnNames="farmer_id" constraintName="fk_farmer_id" referencedTableName="farmer"
                                  referencedColumnNames="id"/>
 
         

@@ -25,7 +25,7 @@ public class DistrictController {
 
     private final DistrictServiceImpl districtService;
 
-    @Tag(name = "endpoint Добавление района", description = "")
+    @Tag(name = "endpoint добавление района", description = "Принимает dto района. Проверит по атрибуту title, существует ли данный район в БД.")
     @PostMapping()
     public ResponseEntity<HttpStatus> create(@Valid @RequestBody DistrictDto districtDto){
         districtService.createDistrict(districtDto);
@@ -45,18 +45,21 @@ public class DistrictController {
         return districtService.findList(districtFilterDTO);
     }
 
+    @Tag(name = "endpoint изменения района", description = "Изменить район. Принимает id района и dto района с новыми параметрами.")
     @PutMapping()
     public ResponseEntity<HttpStatus> update(@RequestParam long id, @Valid @RequestBody DistrictDto districtDto){
         districtService.updateDistrict(id, districtDto);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @Tag(name = "endpoint архивации района", description = "Меняет статус у района, принимает id района. Только архивирует, возврат из архива не предусмотрен. ")
     @PutMapping("/archived")
     public ResponseEntity<HttpStatus> toArchived(@RequestParam long id){
         districtService.toArchived(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @Tag(name = "endpoint удаления района", description = "Удалит район по id.")
     @DeleteMapping()
     public ResponseEntity<HttpStatus> delete(@RequestParam long id){
         districtService.delete(id);

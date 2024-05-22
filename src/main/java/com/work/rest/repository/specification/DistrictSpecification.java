@@ -25,7 +25,7 @@ public class DistrictSpecification {
     }
 
     public Specification<District> byStatusArchived(){
-        return ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("status"), false));
+        return ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("statusArchived"), false));
 
     }
 
