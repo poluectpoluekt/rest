@@ -6,3 +6,6 @@ FROM openjdk:17-jdk-alpine
 WORKDIR /app
 COPY --from=build /app/target/Project.jar /app/app.jar
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+#FROM openjdk:17-jdk-alpine
+#COPY target/Project.jar app.jar
+#ENTRYPOINT ["java", "-jar", "/app.jar"]

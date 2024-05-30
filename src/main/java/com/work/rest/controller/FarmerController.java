@@ -36,7 +36,7 @@ public class FarmerController {
 
     @Tag(name = "endpoint реестра фермера", description = "Получить реестра фермеров по фильтру.")
     @GetMapping("/registryFarmers")
-    public List<FarmerDto> getRegistryfarmers(@RequestBody FarmerFilterDTO farmerFilterDTO){
+    public List<FarmerDto> getRegistryFarmers(@RequestBody FarmerFilterDTO farmerFilterDTO){
         return farmerService.getListInRegistry(farmerFilterDTO);
     }
 

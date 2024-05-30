@@ -1,7 +1,5 @@
 package com.work.rest.service;
 
-import com.work.rest.dto.DistrictDto;
-import com.work.rest.dto.DistrictsTitleDTO;
 import com.work.rest.dto.FarmerDto;
 import com.work.rest.dto.FarmerFilterDTO;
 import com.work.rest.exception.FarmerAlreadyExistException;
@@ -31,14 +29,13 @@ public class FarmerServiceImpl implements FarmerService {
     @Transactional
     @Override
     public void create(FarmerDto farmerDto) {
-        if(repository.findByTitle(farmerDto.getTitle()).isPresent()){
-            throw new FarmerAlreadyExistException(String.format("This \"%s\" already exists.", farmerDto.getTitle()));
-        } else {
-            Farmer farmer = mapper.toFarmer(farmerDto);
-            farmer.setDateRegistrations(LocalDate.now());
-            farmer.setRegistrationDistrictId(farmerDAO.findDistrict(farmerDto.getRegistrationDistrictId()));
-            repository.save(farmer);
+        if (repository.findByTitle(farmerDto.getTitle()).isPresent()) {
+            throw new FarmerAlreadyExistException(farmerDto.getTitle()); //убрать текст из exception
         }
+        Farmer farmer = mapper.toFarmer(farmerDto);
+        farmer.setDateRegistrations(LocalDate.now());
+        farmer.setRegistrationDistrictId(farmerDAO.findDistrict(farmerDto.getRegistrationDistrictId()));
+        repository.save(farmer);
     }
 
     @Override

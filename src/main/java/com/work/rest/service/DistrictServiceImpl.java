@@ -36,7 +36,7 @@ public class DistrictServiceImpl implements DistrictService {
         } else {
             District district = mapper.toDistrict(districtDto);
             district.setFarmers(districtDto.getFarmers().stream().map(districtDAO::findFarmer).collect(Collectors.toList()));
-            repository.save(mapper.toDistrict(districtDto));
+            repository.save(district); // проверить не сломалось ли
         }
 
     }
@@ -58,7 +58,7 @@ public class DistrictServiceImpl implements DistrictService {
 
     @Transactional
     public void toArchived(long id){
-        districtDAO.toArchived(id);
+        districtDAO.toArchived(id); // можно сделать без dao, на репозитории
     }
 
     @Transactional

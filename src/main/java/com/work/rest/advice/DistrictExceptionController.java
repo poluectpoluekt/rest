@@ -3,7 +3,6 @@ package com.work.rest.advice;
 import com.work.rest.exception.DistrictAlreadyExistException;
 import com.work.rest.exception.DistrictNotFoundException;
 import com.work.rest.exception.response.DistrictResponse;
-import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -25,7 +24,7 @@ public class DistrictExceptionController {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(DistrictAlreadyExistException.class)
-    private DistrictResponse districtAlreadyRegistred(DistrictAlreadyExistException e){
+    private DistrictResponse districtAlreadyRegistered(DistrictAlreadyExistException e){
         return new DistrictResponse(e.getMessage(), System.currentTimeMillis());
     }
 

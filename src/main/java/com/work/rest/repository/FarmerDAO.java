@@ -21,33 +21,36 @@ public class FarmerDAO {
     private final EntityManager entityManager;
 
 
-    public void update(long id,FarmerDto farmerDto){
+    public void update(long id, FarmerDto farmerDto) {
         Farmer farmer = entityManager.find(Farmer.class, id);
-        if(farmer==null) throw new FarmerNotFoundException(String.format("Farmer with \"%s\" not found.", farmerDto.getTitle()));
-        else {
-            farmer.setTitle(farmer.getTitle());
-            farmer.setLegalForm(farmer.getLegalForm());
-            farmer.setInn(farmer.getInn());
-            farmer.setKpp(farmer.getKpp());
-            farmer.setOgrn(farmer.getOgrn());
-            farmer.setDateRegistrations(farmerDto.getDateRegistrations());
-            farmer.setStatusArchived(farmer.isStatusArchived());
-            entityManager.merge(farmer);
+        if (farmer == null) {
+            throw new FarmerNotFoundException(String.format("Farmer with \"%s\" not found.", farmerDto.getTitle()));
         }
+        farmer.setTitle(farmer.getTitle());
+        farmer.setLegalForm(farmer.getLegalForm());
+        farmer.setInn(farmer.getInn());
+        farmer.setKpp(farmer.getKpp());
+        farmer.setOgrn(farmer.getOgrn());
+        farmer.setDateRegistrations(farmerDto.getDateRegistrations());
+        farmer.setStatusArchived(farmer.isStatusArchived());
+        entityManager.merge(farmer);
+
     }
 
-    public List<Farmer> getListFarmer(){
+    public List<Farmer> getListFarmer() {
         TypedQuery<Farmer> farmers = entityManager.createQuery("SELECT f FROM Farmer f WHERE f.statusArchived = false", Farmer.class);
         return farmers.getResultList();
     }
 
-    public void toArchived(long id){
+    public void toArchived(long id) {
         Farmer farmer = entityManager.find(Farmer.class, id);
-        if(farmer == null) throw new FarmerNotFoundException(String.format("Farmer with \"%s\" not found.", id));
-        else farmer.setStatusArchived(true);
+        if (farmer == null) {
+            throw new FarmerNotFoundException(String.format("Farmer with \"%s\" not found.", id));
+        }
+        farmer.setStatusArchived(true);
     }
 
-    public District findDistrict(long id){
+    public District findDistrict(long id) {
         return entityManager.find(District.class, id);
     }
 
