@@ -13,8 +13,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+
+/**
+ * Класс FarmerDAO cоздан, в качестве демонстративного работы Hibernate, в код не используется.
+ */
 @AllArgsConstructor
-@Component
+//@Component
 public class FarmerDAO {
 
     @PersistenceContext

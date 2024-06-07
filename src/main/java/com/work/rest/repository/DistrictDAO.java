@@ -14,9 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//@Transactional(readOnly = true)
+/**
+ * Класс DistrictDAO cоздан, в качестве демонстративного работы Hibernate, в код не используется.
+ */
 @AllArgsConstructor
-@Component
+//@Component
 public class DistrictDAO {
 
     @PersistenceContext
@@ -38,7 +40,7 @@ public class DistrictDAO {
             district.setStatusArchived(districtDto.isStatusArchived());
             district.setFarmers(districtDto.getFarmers().stream().map(this::findFarmer).collect(Collectors.toList()));
             entityManager.merge(district);
-        } else throw new DistrictNotFoundException(String.format("District with \"%s\" id not found.", id));
+        } throw new DistrictNotFoundException(String.format("District with \"%s\" id not found.", id));
     }
 
     public Farmer findFarmer(long id){

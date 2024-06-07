@@ -1,5 +1,6 @@
 package com.work.rest.repository;
 
+import com.work.rest.model.District;
 import com.work.rest.model.Farmer;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,5 +14,6 @@ import java.util.Optional;
 public interface FarmerRepository extends JpaRepository<Farmer, Long>, JpaSpecificationExecutor<Farmer> {
 
     Optional<Farmer> findByTitle(String title);
+
 
 }

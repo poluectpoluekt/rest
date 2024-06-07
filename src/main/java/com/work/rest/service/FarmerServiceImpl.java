@@ -3,9 +3,10 @@ package com.work.rest.service;
 import com.work.rest.dto.FarmerDto;
 import com.work.rest.dto.FarmerFilterDTO;
 import com.work.rest.exception.FarmerAlreadyExistException;
+import com.work.rest.exception.FarmerNotFoundException;
 import com.work.rest.mapper.FarmerMapper;
 import com.work.rest.model.Farmer;
-import com.work.rest.repository.FarmerDAO;
+import com.work.rest.repository.DistrictRepository;
 import com.work.rest.repository.FarmerRepository;
 import com.work.rest.repository.specification.FarmerSpecification;
 import lombok.AllArgsConstructor;
@@ -20,27 +21,32 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Service
 public class FarmerServiceImpl implements FarmerService {
-
-    private final FarmerDAO farmerDAO;
     private final FarmerMapper mapper;
     private final FarmerRepository repository;
     private final FarmerSpecification farmerSpecification;
+    private final DistrictRepository districtRepository;
 
     @Transactional
     @Override
     public void create(FarmerDto farmerDto) {
         if (repository.findByTitle(farmerDto.getTitle()).isPresent()) {
-            throw new FarmerAlreadyExistException(farmerDto.getTitle()); //убрать текст из exception
+            throw new FarmerAlreadyExistException(farmerDto.getTitle());
         }
         Farmer farmer = mapper.toFarmer(farmerDto);
         farmer.setDateRegistrations(LocalDate.now());
-        farmer.setRegistrationDistrictId(farmerDAO.findDistrict(farmerDto.getRegistrationDistrictId()));
+        farmer.setRegistrationDistrictId(districtRepository.findById(farmerDto.getRegistrationDistrictId()).orElse(null));
         repository.save(farmer);
     }
 
     @Override
     public void update(long id, FarmerDto farmerDto) {
-        farmerDAO.update(id, farmerDto);
+        Farmer farmer = repository.findById(id).orElseThrow(()-> new FarmerNotFoundException(Long.toString(id)));
+        farmer.setTitle(farmerDto.getTitle());
+        farmer.setLegalForm(farmerDto.getLegalForm());
+        farmer.setInn(farmerDto.getInn());
+        farmer.setKpp(farmerDto.getKpp());
+        farmer.setOgrn(farmerDto.getOgrn());
+        farmer.setDateRegistrations(farmerDto.getDateRegistrations());
     }
 
     @Override
@@ -52,6 +58,7 @@ public class FarmerServiceImpl implements FarmerService {
 
     @Override
     public void toArchived(long id) {
-        farmerDAO.toArchived(id);
+        Farmer farmer = repository.findById(id).orElseThrow(()-> new FarmerNotFoundException(Long.toString(id)));
+        farmer.setStatusArchived(true);
     }
 }

@@ -13,5 +13,4 @@ import java.util.Optional;
 public interface DistrictRepository extends JpaRepository<District, Long>, JpaSpecificationExecutor<District> {
 
     Optional<District> findByTitle(String title);
-
 }

@@ -21,12 +21,14 @@ public class FarmerExceptionController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(FarmerAlreadyExistException.class)
     private FarmerResponse districtAlreadyRegistred(FarmerAlreadyExistException e){
-        return new FarmerResponse(e.getMessage(), System.currentTimeMillis());
+        String messageException = String.format("This \"%s\" already exists.", e.getMessage());
+        return new FarmerResponse(messageException, System.currentTimeMillis());
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(FarmerNotFoundException.class)
     private FarmerResponse districtNotFound(FarmerNotFoundException e){
-        return new FarmerResponse(e.getMessage(), System.currentTimeMillis());
+        String messageException = String.format("Farmer with the \"%s\" was not found", e.getMessage());
+        return new FarmerResponse(messageException, System.currentTimeMillis());
     }
 }

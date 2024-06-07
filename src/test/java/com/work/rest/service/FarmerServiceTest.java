@@ -4,7 +4,6 @@ import com.work.rest.dto.FarmerDto;
 import com.work.rest.exception.FarmerAlreadyExistException;
 import com.work.rest.mapper.FarmerMapper;
 import com.work.rest.model.Farmer;
-import com.work.rest.repository.FarmerDAO;
 import com.work.rest.repository.FarmerRepository;
 import com.work.rest.repository.specification.FarmerSpecification;
 import org.junit.jupiter.api.DisplayName;
@@ -27,9 +26,6 @@ public class FarmerServiceTest {
 
     @Mock
     FarmerRepository repository;
-
-    @Mock
-    FarmerDAO farmerDAO;
 
     @Mock
     FarmerSpecification farmerSpecification;

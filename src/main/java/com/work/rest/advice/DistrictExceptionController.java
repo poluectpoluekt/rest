@@ -25,13 +25,15 @@ public class DistrictExceptionController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(DistrictAlreadyExistException.class)
     private DistrictResponse districtAlreadyRegistered(DistrictAlreadyExistException e){
-        return new DistrictResponse(e.getMessage(), System.currentTimeMillis());
+        String messageException = String.format("This \"%s\" already exists.", e.getMessage());
+        return new DistrictResponse(messageException, System.currentTimeMillis());
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(DistrictNotFoundException.class)
     private DistrictResponse districtNotFound(DistrictNotFoundException e){
-        return new DistrictResponse(e.getMessage(), System.currentTimeMillis());
+        String messageException = String.format("District with the \"%s\" was not found", e.getMessage());
+        return new DistrictResponse(messageException, System.currentTimeMillis());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

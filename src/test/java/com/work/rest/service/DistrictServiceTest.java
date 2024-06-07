@@ -6,7 +6,6 @@ import com.work.rest.exception.DistrictAlreadyExistException;
 import com.work.rest.exception.DistrictNotFoundException;
 import com.work.rest.mapper.DistrictMapper;
 import com.work.rest.model.District;
-import com.work.rest.repository.DistrictDAO;
 import com.work.rest.repository.DistrictRepository;
 import com.work.rest.repository.specification.DistrictSpecification;
 import org.junit.jupiter.api.DisplayName;
@@ -29,9 +28,6 @@ class DistrictServiceTest {
 
     @Mock
     DistrictRepository repository;
-
-    @Mock
-    DistrictDAO districtDAO;
 
     @Mock
     DistrictSpecification districtSpecification;

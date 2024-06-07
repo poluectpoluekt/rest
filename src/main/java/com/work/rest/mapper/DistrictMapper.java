@@ -18,10 +18,10 @@ public interface DistrictMapper {
      @Mapping(target = "farmers", ignore = true)
      District toDistrict(DistrictDto dto);
 
-     @Mapping(source = "farmers", target = "farmers", qualifiedByName = "farmersToFarmersDTOIds")
+     @Mapping(source = "farmers", target = "farmers", qualifiedByName = "farmersToFarmersDtoIds")
      DistrictDto toDistrictDto(District district);
 
-     @Named("farmersToFarmersDTOIds")
+     @Named("farmersToFarmersDtoIds")
      default List<Long> farmersToFarmersIds(List<Farmer> farmers) {
           return farmers.stream().map(Farmer::getId).collect(Collectors.toList());
      }

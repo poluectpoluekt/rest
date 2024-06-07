@@ -6,8 +6,8 @@ import com.work.rest.exception.DistrictAlreadyExistException;
 import com.work.rest.exception.DistrictNotFoundException;
 import com.work.rest.mapper.DistrictMapper;
 import com.work.rest.model.District;
-import com.work.rest.repository.DistrictDAO;
 import com.work.rest.repository.DistrictRepository;
+import com.work.rest.repository.FarmerRepository;
 import com.work.rest.repository.specification.DistrictSpecification;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -23,8 +23,8 @@ public class DistrictServiceImpl implements DistrictService {
 
     private final DistrictMapper mapper;
     private final DistrictRepository repository;
-    private final DistrictDAO districtDAO;
     private final DistrictSpecification districtSpecification;
+    private FarmerRepository farmerRepository;
 
 
     @Transactional
@@ -32,18 +32,17 @@ public class DistrictServiceImpl implements DistrictService {
     public void createDistrict(DistrictDto districtDto) {
 
         if(repository.findByTitle(districtDto.getTitle()).isPresent()){
-            throw new DistrictAlreadyExistException(String.format("This \"%s\" already exists.", districtDto.getTitle()));
-        } else {
-            District district = mapper.toDistrict(districtDto);
-            district.setFarmers(districtDto.getFarmers().stream().map(districtDAO::findFarmer).collect(Collectors.toList()));
-            repository.save(district); // проверить не сломалось ли
+            throw new DistrictAlreadyExistException(districtDto.getTitle());
         }
-
+            District district = mapper.toDistrict(districtDto);
+            district.setFarmers(districtDto.getFarmers().stream()
+                    .map(f -> farmerRepository.findById(f).orElse(null)).collect(Collectors.toList())); // нужно бы уточнить по ТЗ, что делать если в списке, нет фермера с id
+            repository.save(district); // проверить не сломалось ли
     }
 
     public DistrictDto findDistrict(String title){
         return mapper.toDistrictDto(repository.findByTitle(title)
-                .orElseThrow(()-> new DistrictNotFoundException(String.format("District with the \"%s\" was not found", title))));
+                .orElseThrow(()-> new DistrictNotFoundException(title)));
     }
 
     public List<DistrictDto> findList(DistrictFilterDTO districtFilterDTO){
@@ -53,16 +52,25 @@ public class DistrictServiceImpl implements DistrictService {
 
     @Transactional
     public void updateDistrict(long id, DistrictDto districtDto){
-        districtDAO.edit(id, districtDto);
+        District districtUpdate = repository.findById(id).orElseThrow(()-> new DistrictNotFoundException(Long.toString(id)));
+        districtUpdate.setTitle(districtUpdate.getTitle());
+        districtUpdate.setCode(districtDto.getCode());
+        districtUpdate.setStatusArchived(districtDto.isStatusArchived());
+        districtUpdate.setFarmers(districtDto.getFarmers().stream()
+                .map(f -> farmerRepository.findById(f).orElse(null)).collect(Collectors.toList()));
+        repository.save(districtUpdate);
     }
 
     @Transactional
     public void toArchived(long id){
-        districtDAO.toArchived(id); // можно сделать без dao, на репозитории
+        District districtUpdate = repository.findById(id).orElseThrow(()-> new DistrictNotFoundException(Long.toString(id)));
+        districtUpdate.setStatusArchived(true);
+        repository.save(districtUpdate);
     }
 
     @Transactional
     public void delete(long id){
-        districtDAO.delete(id);
+        repository.deleteById(id);
     }
+
 }
